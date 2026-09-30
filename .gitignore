@@ -1,0 +1,10 @@
+.idea
+.claude
+.venv
+.DS_Store
+
+.env
+local.env
+development.env
+staging.env
+production.env

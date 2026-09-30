@@ -1,0 +1,13 @@
+[project]
+name = "legacy-app"
+version = "0.1.0"
+description = "A deliberately neglected project for demoing Molt. Do not upgrade by hand."
+license = "MIT"
+requires-python = ">=3.10"
+dependencies = [
+    "requests==2.25.1",   # CVEs fixed in a minor release        -> expect AUTO_UPGRADE
+    "pyyaml==5.3.1",      # CRITICAL CVE-2020-14343, fixed in 5.4 -> expect AUTO_UPGRADE
+    "jinja2==2.11.3",     # CVEs fixed only in 3.x                -> expect UPGRADE_BREAKING
+    "nose==1.3.7",        # LGPL, last release 2015               -> expect REPLACE (pytest)
+    "click>=8.1",         # healthy                               -> expect NO_ACTION
+]
