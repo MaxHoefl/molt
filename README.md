@@ -215,6 +215,32 @@ the `env` block of the client config below. Get an Anthropic key at https://plat
 export ANTHROPIC_API_KEY=sk-ant-...
 ```
 
+### Cost Estimate
+
+These are estimates, not measured costs. Prices used: Claude Opus 5 at $5 / $25 and Claude Haiku 4.5 at
+$1 / $5 per million input / output tokens. A full `audit_and_upgrade` run on `demo/legacy-app` (5 packages)
+makes about 5 security, license and maintenance assessments, one triage call and up to 5 search steps for
+a replacement. Together that is roughly 90k input and 8k output tokens.
+
+| Model for all tools | Estimated cost per full audit |
+|---|---|
+| `anthropic:claude-haiku-4-5-20251001` | ≈ $0.13 |
+| `anthropic:claude-opus-5` (default) | ≈ $0.65 |
+
+**To keep user testing under $0.50 per run:**
+
+- Use Haiku for every tool (the first row above):
+  ```bash
+  MOLT_SERVER_DEFAULT_LLM_MODEL="anthropic:claude-haiku-4-5-20251001"
+  ```
+- Test on small projects such as `demo/legacy-app`. The cost grows with the number of dependencies.
+- Call single tools such as `scan_project` or `assess_security` instead of the full audit when you only
+  need one check.
+- Enrichment data (OSV, PyPI, GitHub, deps.dev) is cached for 24 hours, so repeat runs do not refetch it.
+  The cache covers dependency data only, so each run still makes the LLM calls estimated above.
+
+After a run, check the token usage in your provider's console to confirm the numbers for your setup.
+
 ## Running the Server
 
 ### As a Command-Line Tool
